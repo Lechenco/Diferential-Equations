@@ -41,11 +41,14 @@ def prevent_malaria():
 
     for step in range(num_steps):
         ###Your code here.
-        rate_humans = h * (bites_per_day_and_mosquito * transmission_probability_mosquito_to_human * infected_mosquitoes[step] * (total_humans - infected_humans[step]) / total_humans - infected_humans[step] / human_recovery_time)
-        rate_mosquitoes = h * (bites_per_day_and_mosquito * transmission_probability_human_to_mosquito * infected_humans[step] * (total_mosquitoes - infected_mosquitoes[step]) / total_mosquitoes)
+        net_factor = 1.
+        if h * step >= 100.:
+            net_factor = 1.0 - bite_reduction_by_net
         
-        infected_humans[step + 1] = infected_humans[step] + rate_humans###Your code here.
-        infected_mosquitoes[step + 1] = infected_mosquitoes[step] + rate_mosquitoes###Your code here.
+        infected_humans[step + 1] = infected_humans[step] +  h * (net_factor * bites_per_day_and_mosquito * infected_mosquitoes[step] \
+                           * (total_humans - infected_humans[step]) / total_humans * transmission_probability_mosquito_to_human - 1.0 * infected_humans[step] / human_recovery_time)###Your code here.
+        infected_mosquitoes[step + 1] = infected_mosquitoes[step] + h * (net_factor * bites_per_day_and_mosquito * infected_humans[step] \
+                               * (total_mosquitoes - infected_mosquitoes[step]) / total_humans * transmission_probability_human_to_mosquito - infected_mosquitoes[step] / mosquito_lifetime)###Your code here.
 
     return infected_humans, infected_mosquitoes
 
