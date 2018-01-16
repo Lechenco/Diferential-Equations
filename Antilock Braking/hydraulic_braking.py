@@ -59,9 +59,16 @@ def hydraulic():
         w[step + 1] = max(0., w[step + 1])
 
         # your code here
-    
-        b[step + 1] = # fill this in
-
+        if s <= low_slip:
+            brake_change = 1
+        elif s >= high_slip:
+            brake_change = -1
+        b[step + 1] = b[step] + h * hydraulic_speed * brake_change
+        b[step + 1] = min(max_brake, max(0, b[step + 1]))
+        
+        ##Solution less stressfull fot the brake
+        #b[step + 1] = min(150, max(100, b[step + 1]))
+        
     axes_x.plot(times[:step:10], x[:step:10])
     axes_v.plot(times[:step:10], v[:step:10])
     axes_w.plot(times[:step:10], w[:step:10])
