@@ -12,7 +12,7 @@
 #
 
 import numpy
-import matpotlib.pyplot
+import matplotlib.pyplot
 
 diffusion_coefficient_a = 0.0005 # m2 / s
 diffusion_coefficient_b = 0.004 # m2 / s
@@ -42,7 +42,7 @@ def pattern():
             
             if j_plus == size:
                 j_plus = 0
-            
+
             for i in range(size):
                 i_plus = i + 1
                 i_minus = i - 1
@@ -55,8 +55,10 @@ def pattern():
                 b0 = b_old[j, i]
                 
                 # Task 3: Implement the explicit finite-difference scheme for the activator-inhibitor model.
-                a_new[j, i] = # your code herez
-                b_new[j, i] = # your code here
+                a_new[j, i] = a0 + h* (diffusion_coefficient_a * ((a_old[j_plus, i] + a_old[j_minus, i] + \
+                     a_old[j, i_plus] + a_old[j, i_minus] -4 * a_old[j,i]) / dx**2) + (1 - a0**2) * a0 - b0)
+                b_new[j, i] = b0 + h* (diffusion_coefficient_b * (b_old[j_plus, i] + b_old[j_minus, i] + \
+                     b_old[j, i_plus] + b_old[j, i_minus] -4 * b_old[j,i]) / dx**2 + a0 - 0.7 * b0)
                 
         a_old, b_old, a_new, b_new = a_new, b_new, a_old, b_old
    
@@ -75,6 +77,7 @@ def pattern():
     axes.set_title('b')
     axes.set_xlabel('x in m')
     axes.set_ylabel('y in m')
+    
     
     return a_old, b_old
 
