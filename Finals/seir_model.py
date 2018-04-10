@@ -57,7 +57,7 @@ def plot_me():
     i_plot = matplotlib.pyplot.plot(times, i, label='I')
     r_plot = matplotlib.pyplot.plot(times, r, label='R')
     n_plot = matplotlib.pyplot.plot(times, s + e + i + r, label='N')
-    matplotlib.pyplot.legend(('S', 'E', 'I', 'R', 'N'), 'upper right')
+    #matplotlib.pyplot.legend(('S', 'E', 'I', 'R', 'N'), 'upper right')
 
     axes = matplotlib.pyplot.gca()
     axes.set_xlabel('Time in days')
